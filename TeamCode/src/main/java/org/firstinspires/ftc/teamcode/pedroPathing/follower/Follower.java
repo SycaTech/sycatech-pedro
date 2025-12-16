@@ -67,11 +67,11 @@ import java.util.List;
 public class Follower {
     private HardwareMap hardwareMap;
 
-    private DcMotorEx leftFront;
-    private DcMotorEx leftRear;
-    private DcMotorEx rightFront;
-    private DcMotorEx rightRear;
-    private List<DcMotorEx> motors;
+    private DcMotor LF;
+    private DcMotor LR;
+    private DcMotor RF;
+    private DcMotor RR;
+    private List<DcMotor> motors;
 
     private DriveVectorScaler driveVectorScaler;
 
@@ -176,24 +176,24 @@ public class Follower {
         driveVectorScaler = new DriveVectorScaler(FollowerConstants.frontLeftVector);
         poseUpdater = new PoseUpdater(hardwareMap);
 
-        leftFront = hardwareMap.get(DcMotorEx.class, leftFrontMotorName);
-        leftRear = hardwareMap.get(DcMotorEx.class, leftRearMotorName);
-        rightRear = hardwareMap.get(DcMotorEx.class, rightRearMotorName);
-        rightFront = hardwareMap.get(DcMotorEx.class, rightFrontMotorName);
-        leftFront.setDirection(leftFrontMotorDirection);
-        leftRear.setDirection(leftRearMotorDirection);
-        rightFront.setDirection(rightFrontMotorDirection);
-        rightRear.setDirection(rightRearMotorDirection);
+        LF = hardwareMap.get(DcMotorEx.class, leftFrontMotorName);
+        LR = hardwareMap.get(DcMotorEx.class, leftRearMotorName);
+        RR = hardwareMap.get(DcMotorEx.class, rightRearMotorName);
+        RF = hardwareMap.get(DcMotorEx.class, rightFrontMotorName);
+        LF.setDirection(leftFrontMotorDirection);
+        LR.setDirection(leftRearMotorDirection);
+        RF.setDirection(rightFrontMotorDirection);
+        RR.setDirection(rightRearMotorDirection);
 
-        motors = Arrays.asList(leftFront, leftRear, rightFront, rightRear);
+        motors = Arrays.asList(LF, LR, RF, RR);
 
-        for (DcMotorEx motor : motors) {
+        for (DcMotor motor : motors) {
             MotorConfigurationType motorConfigurationType = motor.getMotorType().clone();
             motorConfigurationType.setAchieveableMaxRPMFraction(1.0);
             motor.setMotorType(motorConfigurationType);
         }
 
-        for (DcMotorEx motor : motors) {
+        for (DcMotor motor : motors) {
             motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         }
 
@@ -219,24 +219,24 @@ public class Follower {
         //        leftFront = hardwareMap.get(DcMotorEx.class, "motor_lf");
         //        leftRear = hardwareMap.get(DcMotorEx.class, "motor_lb");
 
-        leftFront = hardwareMap.get(DcMotorEx.class, leftFrontMotorName);
-        leftRear = hardwareMap.get(DcMotorEx.class, leftRearMotorName);
-        rightRear = hardwareMap.get(DcMotorEx.class, rightRearMotorName);
-        rightFront = hardwareMap.get(DcMotorEx.class, rightFrontMotorName);
+        LF = hardwareMap.get(DcMotorEx.class, leftFrontMotorName);
+        LR = hardwareMap.get(DcMotorEx.class, leftRearMotorName);
+        RR = hardwareMap.get(DcMotorEx.class, rightRearMotorName);
+        RF = hardwareMap.get(DcMotorEx.class, rightFrontMotorName);
 
         // TODO: Make sure that this is the direction your motors need to be reversed in.
-        leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
-        leftRear.setDirection(DcMotorSimple.Direction.REVERSE);
+        LF.setDirection(DcMotorSimple.Direction.REVERSE);
+        LR.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        motors = Arrays.asList(leftFront, leftRear, rightFront, rightRear);
+        motors = Arrays.asList(LF, LR, RF, RR);
 
-        for (DcMotorEx motor : motors) {
+        for (DcMotor motor : motors) {
             MotorConfigurationType motorConfigurationType = motor.getMotorType().clone();
             motorConfigurationType.setAchieveableMaxRPMFraction(1.0);
             motor.setMotorType(motorConfigurationType);
         }
 
-        for (DcMotorEx motor : motors) {
+        for (DcMotor motor : motors) {
             motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         }
 

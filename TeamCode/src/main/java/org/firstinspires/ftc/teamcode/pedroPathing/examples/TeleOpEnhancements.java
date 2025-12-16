@@ -25,10 +25,10 @@ import org.firstinspires.ftc.teamcode.pedroPathing.follower.Follower;
 public class TeleOpEnhancements extends OpMode {
     private Follower follower;
 
-    private DcMotorEx leftFront;
-    private DcMotorEx leftRear;
-    private DcMotorEx rightFront;
-    private DcMotorEx rightRear;
+    private DcMotor LF;
+    private DcMotor LR;
+    private DcMotor RF;
+    private DcMotor RR;
 
     /**
      * This initializes the drive motors as well as the Follower and motion Vectors.
@@ -37,15 +37,15 @@ public class TeleOpEnhancements extends OpMode {
     public void init() {
         follower = new Follower(hardwareMap);
 
-        leftFront = hardwareMap.get(DcMotorEx.class, leftFrontMotorName);
-        leftRear = hardwareMap.get(DcMotorEx.class, leftRearMotorName);
-        rightRear = hardwareMap.get(DcMotorEx.class, rightRearMotorName);
-        rightFront = hardwareMap.get(DcMotorEx.class, rightFrontMotorName);
+        LF = hardwareMap.get(DcMotor.class, leftFrontMotorName);
+        LR = hardwareMap.get(DcMotor.class, leftRearMotorName);
+        RR = hardwareMap.get(DcMotor.class, rightRearMotorName);
+        RF = hardwareMap.get(DcMotor.class, rightFrontMotorName);
 
-        leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        leftRear.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightRear.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        LF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        LR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        RR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        RF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         follower.startTeleopDrive();
     }

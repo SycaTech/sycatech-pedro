@@ -41,11 +41,11 @@ public class LocalizationTest extends OpMode {
     private DashboardPoseTracker dashboardPoseTracker;
     private Telemetry telemetryA;
 
-    private DcMotorEx leftFront;
-    private DcMotorEx leftRear;
-    private DcMotorEx rightFront;
-    private DcMotorEx rightRear;
-    private List<DcMotorEx> motors;
+    private DcMotor LF;
+    private DcMotor LR;
+    private DcMotor RF;
+    private DcMotor RR;
+    private List<DcMotor> motors;
 
     /**
      * This initializes the PoseUpdater, the mecanum drive motors, and the FTC Dashboard telemetry.
@@ -56,24 +56,24 @@ public class LocalizationTest extends OpMode {
 
         dashboardPoseTracker = new DashboardPoseTracker(poseUpdater);
 
-        leftFront = hardwareMap.get(DcMotorEx.class, leftFrontMotorName);
-        leftRear = hardwareMap.get(DcMotorEx.class, leftRearMotorName);
-        rightRear = hardwareMap.get(DcMotorEx.class, rightRearMotorName);
-        rightFront = hardwareMap.get(DcMotorEx.class, rightFrontMotorName);
-        leftFront.setDirection(leftFrontMotorDirection);
-        leftRear.setDirection(leftRearMotorDirection);
-        rightFront.setDirection(rightFrontMotorDirection);
-        rightRear.setDirection(rightRearMotorDirection);
+        LF = hardwareMap.get(DcMotorEx.class, leftFrontMotorName);
+        LR = hardwareMap.get(DcMotorEx.class, leftRearMotorName);
+        RR = hardwareMap.get(DcMotorEx.class, rightRearMotorName);
+        RF = hardwareMap.get(DcMotorEx.class, rightFrontMotorName);
+        LF.setDirection(leftFrontMotorDirection);
+        LR.setDirection(leftRearMotorDirection);
+        RF.setDirection(rightFrontMotorDirection);
+        RR.setDirection(rightRearMotorDirection);
 
-        motors = Arrays.asList(leftFront, leftRear, rightFront, rightRear);
+        motors = Arrays.asList(LF, LR, RF, RR);
 
-        for (DcMotorEx motor : motors) {
+        for (DcMotor motor : motors) {
             MotorConfigurationType motorConfigurationType = motor.getMotorType().clone();
             motorConfigurationType.setAchieveableMaxRPMFraction(1.0);
             motor.setMotorType(motorConfigurationType);
         }
 
-        for (DcMotorEx motor : motors) {
+        for (DcMotor motor : motors) {
             motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         }
 
@@ -108,10 +108,10 @@ public class LocalizationTest extends OpMode {
         double rightFrontPower = (y - x - rx) / denominator;
         double rightRearPower = (y + x - rx) / denominator;
 
-        leftFront.setPower(leftFrontPower);
-        leftRear.setPower(leftRearPower);
-        rightFront.setPower(rightFrontPower);
-        rightRear.setPower(rightRearPower);
+        LF.setPower(leftFrontPower);
+        LR.setPower(leftRearPower);
+        RF.setPower(rightFrontPower);
+        RR.setPower(rightRearPower);
 
         telemetryA.addData("x", poseUpdater.getPose().getX());
         telemetryA.addData("y", poseUpdater.getPose().getY());

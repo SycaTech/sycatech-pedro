@@ -47,11 +47,11 @@ import java.util.List;
 public class StrafeVelocityTuner extends OpMode {
     private ArrayList<Double> velocities = new ArrayList<>();
 
-    private DcMotorEx leftFront;
-    private DcMotorEx leftRear;
-    private DcMotorEx rightFront;
-    private DcMotorEx rightRear;
-    private List<DcMotorEx> motors;
+    private DcMotor LF;
+    private DcMotor LR;
+    private DcMotor RF;
+    private DcMotor RR;
+    private List<DcMotor> motors;
 
     private PoseUpdater poseUpdater;
 
@@ -70,24 +70,24 @@ public class StrafeVelocityTuner extends OpMode {
     public void init() {
         poseUpdater = new PoseUpdater(hardwareMap);
 
-        leftFront = hardwareMap.get(DcMotorEx.class, leftFrontMotorName);
-        leftRear = hardwareMap.get(DcMotorEx.class, leftRearMotorName);
-        rightRear = hardwareMap.get(DcMotorEx.class, rightRearMotorName);
-        rightFront = hardwareMap.get(DcMotorEx.class, rightFrontMotorName);
-        leftFront.setDirection(leftFrontMotorDirection);
-        leftRear.setDirection(leftRearMotorDirection);
-        rightFront.setDirection(rightFrontMotorDirection);
-        rightRear.setDirection(rightRearMotorDirection);
+        LF = hardwareMap.get(DcMotorEx.class, leftFrontMotorName);
+        LR = hardwareMap.get(DcMotorEx.class, leftRearMotorName);
+        RR = hardwareMap.get(DcMotorEx.class, rightRearMotorName);
+        RF = hardwareMap.get(DcMotorEx.class, rightFrontMotorName);
+        LF.setDirection(leftFrontMotorDirection);
+        LR.setDirection(leftRearMotorDirection);
+        RF.setDirection(rightFrontMotorDirection);
+        RR.setDirection(rightRearMotorDirection);
 
-        motors = Arrays.asList(leftFront, leftRear, rightFront, rightRear);
+        motors = Arrays.asList(LF, LR, RF, RR);
 
-        for (DcMotorEx motor : motors) {
+        for (DcMotor motor : motors) {
             MotorConfigurationType motorConfigurationType = motor.getMotorType().clone();
             motorConfigurationType.setAchieveableMaxRPMFraction(1.0);
             motor.setMotorType(motorConfigurationType);
         }
 
-        for (DcMotorEx motor : motors) {
+        for (DcMotor motor : motors) {
             motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         }
 
@@ -108,10 +108,10 @@ public class StrafeVelocityTuner extends OpMode {
      */
     @Override
     public void start() {
-        leftFront.setPower(1);
-        leftRear.setPower(-1);
-        rightFront.setPower(-1);
-        rightRear.setPower(1);
+        LF.setPower(1);
+        LR.setPower(-1);
+        RF.setPower(-1);
+        RR.setPower(1);
     }
 
     /**
@@ -123,7 +123,7 @@ public class StrafeVelocityTuner extends OpMode {
     @Override
     public void loop() {
         if (gamepad1.cross || gamepad1.a) {
-            for (DcMotorEx motor : motors) {
+            for (DcMotor motor : motors) {
                 motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
                 motor.setPower(0);
             }
@@ -134,7 +134,7 @@ public class StrafeVelocityTuner extends OpMode {
         if (!end) {
             if (Math.abs(poseUpdater.getPose().getY()) > DISTANCE) {
                 end = true;
-                for (DcMotorEx motor : motors) {
+                for (DcMotor motor : motors) {
                     motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
                     motor.setPower(0);
                 }
@@ -144,11 +144,11 @@ public class StrafeVelocityTuner extends OpMode {
                 velocities.remove(0);
             }
         } else {
-            leftFront.setPower(0);
-            leftRear.setPower(0);
-            rightFront.setPower(0);
-            rightRear.setPower(0);
-            for (DcMotorEx motor : motors) {
+            LF.setPower(0);
+            LR.setPower(0);
+            RF.setPower(0);
+            RR.setPower(0);
+            for (DcMotor motor : motors) {
                 motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             }
             double average = 0;
