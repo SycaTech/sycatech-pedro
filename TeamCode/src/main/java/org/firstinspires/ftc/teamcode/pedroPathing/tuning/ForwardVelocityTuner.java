@@ -47,11 +47,11 @@ import java.util.List;
 public class ForwardVelocityTuner extends OpMode {
     private ArrayList<Double> velocities = new ArrayList<>();
 
-    private DcMotorEx leftFront;
-    private DcMotorEx leftRear;
-    private DcMotorEx rightFront;
-    private DcMotorEx rightRear;
-    private List<DcMotorEx> motors;
+    private DcMotor leftFront;
+    private DcMotor leftRear;
+    private DcMotor rightFront;
+    private DcMotor rightRear;
+    private List<DcMotor> motors;
 
     private PoseUpdater poseUpdater;
 
@@ -81,13 +81,13 @@ public class ForwardVelocityTuner extends OpMode {
 
         motors = Arrays.asList(leftFront, leftRear, rightFront, rightRear);
 
-        for (DcMotorEx motor : motors) {
+        for (DcMotor motor : motors) {
             MotorConfigurationType motorConfigurationType = motor.getMotorType().clone();
             motorConfigurationType.setAchieveableMaxRPMFraction(1.0);
             motor.setMotorType(motorConfigurationType);
         }
 
-        for (DcMotorEx motor : motors) {
+        for (DcMotor motor : motors) {
             motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         }
 
@@ -125,7 +125,7 @@ public class ForwardVelocityTuner extends OpMode {
     @Override
     public void loop() {
         if (gamepad1.cross || gamepad1.a) {
-            for (DcMotorEx motor : motors) {
+            for (DcMotor motor : motors) {
                 motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
                 motor.setPower(0);
             }
@@ -136,7 +136,7 @@ public class ForwardVelocityTuner extends OpMode {
         if (!end) {
             if (Math.abs(poseUpdater.getPose().getX()) > DISTANCE) {
                 end = true;
-                for (DcMotorEx motor : motors) {
+                for (DcMotor motor : motors) {
                     motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
                     motor.setPower(0);
                 }
@@ -150,7 +150,7 @@ public class ForwardVelocityTuner extends OpMode {
             leftRear.setPower(0);
             rightFront.setPower(0);
             rightRear.setPower(0);
-            for (DcMotorEx motor : motors) {
+            for (DcMotor motor : motors) {
                 motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             }
             double average = 0;
