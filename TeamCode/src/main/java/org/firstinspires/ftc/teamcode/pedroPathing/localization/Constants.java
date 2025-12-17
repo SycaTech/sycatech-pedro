@@ -36,15 +36,8 @@ public class Constants {
             .robotLength(17.75);
 
 
-    public static PathConstraints pathConstraints = new PathConstraints(
-            0.99,
-            0.1,
-            0.1,
-            0.009,
-            100,
-            1,
-            10,
-            1);
+    public static PathConstraints pathConstraints = new PathConstraints(0.99, 100, 1, 1);
+
 
     public static Follower createFollower(HardwareMap hardwareMap) {
         return new FollowerBuilder(followerConstants, hardwareMap)
